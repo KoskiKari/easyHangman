@@ -1,0 +1,2 @@
+# easyHangman
+hangman CLI game

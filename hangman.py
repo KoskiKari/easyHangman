@@ -1,7 +1,7 @@
 import time, random, os, string
 
 def menuLayout():
-    #game's main menu
+    #game's main menu   
     print(f'HANGMAN GAME ')
     print(f'  ____       ')
     print(f'/     |      ')
@@ -25,7 +25,7 @@ def menuLayout():
             time.sleep(1)
 
 def selectWord():
-    #allow user to create their own word
+    #allow user to create their own word, require length higher than 2
     os.system('cls')
     while True:
         magic_word = input('Enter word to guess: ')
@@ -72,7 +72,6 @@ def drawHangman(count,figure):
     return figure
 
 def game(magic_word,easy_mode):
-
     #create variables needed for game, add letters to word if easy mode
     count = 0
     figure =['', ' ' , ' ', '', '' ,'']
@@ -83,21 +82,21 @@ def game(magic_word,easy_mode):
 
     #game loop
     while True:
-        #user input handling
-        os.system('cls')
-        drawHangman(count,figure)
-        [print(char,end='') for char in current]
+        
+
         while True:
-            
+            os.system('cls')
+            drawHangman(count,figure)
+
+            #print current status with list comprehension
+            [print(char,end='') for char in current]
+
+            #user input handling
             print(f'\nPrevious guesses: {already_guessed}')
             letter = input('Enter letter to guess:')
-            if letter:
+            if letter and letter not in already_guessed:
                 already_guessed.append(letter)
                 break
-            else:
-                os.system('cls')
-                drawHangman(count,figure)
-                [print(char,end='') for char in current]
 
         #check if letter present in magic_word, fill correct positions
         if letter in magic_word:
@@ -113,25 +112,25 @@ def game(magic_word,easy_mode):
 
         #check if all letters have been guessed
         if '*' not in current:
-            print(f'\n***** {magic_word} *****')
+            print(f'\n***** {magic_word} *****\n')
             print('Congratulations! You have won!')
-            input('Press any key to continue.')
+            input('Press enter to continue.')
             return
 
     #after all guesses are used, loop breaks -> defeat message
     drawHangman(count,figure)
     print('\nOut of guesses!')
     print(f'Word was: {magic_word}')
-    input('Press any key to continue.')
+    input('Press enter to continue.')
 
 #main
 while True:
     easy_mode = False
     os.system('cls')
-    #mainmenu
     option = menuLayout()
     
     #set easy_mode flag and change to normal mode
+    #TODO: easy flag in user selected word
     if option == 'e':
         option = 'n'
         easy_mode = True
@@ -145,7 +144,7 @@ while True:
         print('Thanks for playing')
         break
 
-    #if somehow option other than predetermined is introduced end loop
+    #if somehow option other than predetermined is introduced, end loop
     else:
         print('Unexpected error')
         break

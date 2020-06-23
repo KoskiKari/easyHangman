@@ -29,9 +29,10 @@ def selectWord():
     os.system('cls')
     while True:
         magic_word = input('Enter word to guess: ')
-        if len(magic_word) < 1:
+        #check word is atleast 2 chars, and contains only letters
+        if len(magic_word) < 2 or not magic_word.isalpha():
             os.system('cls')
-            print('Word needs length of 1 atleast')
+            print('Word needs length of 2 atleast')
             continue
         break
     return magic_word
@@ -56,7 +57,7 @@ def addLetters(current,magic_word):
     return current
 
 def drawHangman(count,figure):
-    #after initial draw (countt > 0) start adding body parts
+    #after initial draw, start adding body parts
     if count > 0:
         parts = ['O','|','-','-','/','\\']
         figure[count-1] = parts[count-1]
@@ -82,8 +83,8 @@ def game(magic_word,easy_mode):
 
     #game loop
     while True:
-        
 
+        #input loop 
         while True:
             os.system('cls')
             drawHangman(count,figure)
